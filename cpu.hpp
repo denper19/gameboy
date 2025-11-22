@@ -1,6 +1,6 @@
 #pragma once
 
-#include<iostream>
+#include <iostream>
 
 #define REG_A 0
 #define REG_B 1
@@ -36,13 +36,17 @@ class gb_cpu {
 
     public:
 
-    u8 get_register(u8 reg);
+    /**
+    * The algorithmic approach to decode the opcodes is being used 
+    * It requires certain 'tables' to be defined
+    * https://archive.gbdev.io/salvage/decoding_gbz80_opcodes/Decoding%20Gamboy%20Z80%20Opcodes.html
+    */
+    u8 get_table_r(u8 reg);
 
-    u16 get_register16(u8 reg);
+    u8 get_table_rp(u8 reg);
 
-    u8 set_register(u8 reg, u8 val);
-
-    u8 set_register16(u8 reg, u16 val);
+    u8 get_table_rp2(u8 reg);
+    //************************************************** */
 
     u8 read(u16 addr);
 
