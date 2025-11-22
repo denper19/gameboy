@@ -1,0 +1,59 @@
+#pragma once
+
+#include<iostream>
+
+#define REG_A 0
+#define REG_B 1
+#define REG_C 2
+#define REG_D 3
+#define REG_E 4
+#define REG_H 5
+#define REG_L 6
+
+using u8 = std::uint8_t;
+using u16 = std::uint16_t;
+
+union gb_reg {
+    struct {
+        u8 reg8_hi;
+        u8 reg8_lo;
+    };
+    u16 reg16;
+};
+
+class gb_cpu {
+
+    public:
+
+    gb_reg af {0};
+    gb_reg bc {0};
+    gb_reg de {0};
+    gb_reg hl {0};
+    u16 stackptr = 0;
+    u16 progcount = 0;
+
+    u8 memory[0xffff];
+
+    public:
+
+    u8 get_register(u8 reg);
+
+    u16 get_register16(u8 reg);
+
+    u8 set_register(u8 reg, u8 val);
+
+    u8 set_register16(u8 reg, u16 val);
+
+    u8 read(u16 addr);
+
+    u16 read16(u16 addr);
+
+    void write(u16 addr, u8 data);
+
+    void step_cpu(int cycles);
+
+    void decode_and_execute_opcode(u8 opcode);
+
+    void execute_prefix_cb(u8 opcode);
+
+};
