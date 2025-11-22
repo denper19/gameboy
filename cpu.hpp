@@ -46,6 +46,8 @@ class gb_cpu {
     u8 get_table_rp(u8 reg);
 
     u8 get_table_rp2(u8 reg);
+
+    void opcode_row1(u8 q, u8 y, u8 p);
     //************************************************** */
 
     u8 read(u16 addr);

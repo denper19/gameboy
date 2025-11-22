@@ -41,7 +41,23 @@ u8 gb_cpu::get_table_rp2(u8 reg) {
 }
 
 
-void decode(u8 opcode) {
+void gb_cpu::opcode_row1(u8 q, u8 y, u8 p) {
+
+    switch (y) {
+        case 0: return; // nop
+        // ld (nn), sp
+        case 1: write(read16(progcount), stackptr); progcount += 2; return;
+        case 2: return; // stop
+        // jr d
+        case 3: return;
+        // jr cc[y-4], d
+        case 4: return; 
+    }
+
+}
+
+
+void gb_cpu::decode_and_execute_opcode(u8 opcode) {
     
     u8 x = (opcode >> 6) & 0x3; // bits 7-6
     u8 y = (opcode >> 2) & 0x7; // bits 5-3
@@ -52,15 +68,16 @@ void decode(u8 opcode) {
 
     switch (x)
     {
-        case 0:
-        {
+        case 0:{
             switch (z) {
-
-                case 0:
-
-
-
-            }
+                case 0: opcode_row1(q, y, p); break;
+                // case 1: opcode_row2(q, y, p); break;
+                // case 2: opcode_row3(q, y, p); break;
+                // case 3: opcode_row4(q, y, p); break;
+                // case 4: opcode_row5(q, y, p); break;
+                // case 5: opcode_row6(q, y, p); break;
+                // case 6: opcode_row7(q, y, p); break;
+            };
         }
     };
 
