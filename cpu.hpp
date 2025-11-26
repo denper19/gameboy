@@ -2,13 +2,10 @@
 
 #include <iostream>
 
-#define REG_A 0
-#define REG_B 1
-#define REG_C 2
-#define REG_D 3
-#define REG_E 4
-#define REG_H 5
-#define REG_L 6
+#define FLAGS_NZ 0
+#define FLAGS_Z  1
+#define FLAGS_NC 2
+#define FLAGS_C  3
 
 using u8 = std::uint8_t;
 using u16 = std::uint16_t;
@@ -47,7 +44,10 @@ class gb_cpu {
 
     u8 get_table_rp2(u8 reg);
 
+    bool get_flags_cc(u8 y);
+
     void opcode_row1(u8 q, u8 y, u8 p);
+    void opcode_row2(u8 q, u8 y, u8 p);
     //************************************************** */
 
     u8 read(u16 addr);

@@ -40,22 +40,54 @@ u8 gb_cpu::get_table_rp2(u8 reg) {
     else { return get_table_rp(reg); }
 }
 
+bool gb_cpu::get_flags_cc(u8 y) {
+    /**
+    * Returns flag values
+    */
+   switch(y) {
+        case 0:
+            return;
+   };
+}
+
 
 void gb_cpu::opcode_row1(u8 q, u8 y, u8 p) {
 
     switch (y) {
         case 0: return; // nop
         // ld (nn), sp
-        case 1: write(read16(progcount), stackptr); progcount += 2; return;
+        case 1: 
+            write(read16(progcount), stackptr); 
+            progcount += 2; 
+            return;
         case 2: return; // stop
         // jr d
-        case 3: return;
+        case 3: 
+            progcount += read(progcount);
+            return;
         // jr cc[y-4], d
-        case 4: return; 
+        case 4: 
+            bool flag_value = get_flags_cc(y-4);
+            if (flag_value == true) {
+                progcount += read(progcount);
+            }
+            return; 
     }
 
 }
 
+
+void gb_cpu::opcode_row2(u8 q, u8 y, u8 p) {
+
+    if (q == 0) {
+        // LD rp[p], nn
+
+    }
+    else {
+        // ADD HL, rp[p]    
+    }
+
+}
 
 void gb_cpu::decode_and_execute_opcode(u8 opcode) {
     
@@ -71,7 +103,7 @@ void gb_cpu::decode_and_execute_opcode(u8 opcode) {
         case 0:{
             switch (z) {
                 case 0: opcode_row1(q, y, p); break;
-                // case 1: opcode_row2(q, y, p); break;
+                case 1: opcode_row2(q, y, p); break;
                 // case 2: opcode_row3(q, y, p); break;
                 // case 3: opcode_row4(q, y, p); break;
                 // case 4: opcode_row5(q, y, p); break;
